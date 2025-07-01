@@ -1,9 +1,33 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Sélectionner toutes les cartes
+document.addEventListener('DOMContentLoaded', () => {
+  const plusButtons = document.querySelectorAll('.fa-plus-circle');
+  const minusButtons = document.querySelectorAll('.fa-minus-circle');
+  const quantities = document.querySelectorAll('.quantity');
+  const unitPrices = document.querySelectorAll('.unit-price');
+  const totalPriceElement = document.querySelector('.total');
+
+  plusButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      let quantity = parseInt(quantities[index].textContent);
+      quantity++;
+      quantities[index].textContent = quantity;
+      updateTotalPrice();
+    });
+  });
+
+  minusButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      let quantity = parseInt(quantities[index].textContent);
+      if (quantity > 0) {
+        quantity--;
+        quantities[index].textContent = quantity;
+        updateTotalPrice();
+      }
+    });
+  });
+
   const cards = document.querySelectorAll('.card');
   
   cards.forEach(card => {
-    // Éléments de la carte
     const plusIcon = card.querySelector('.fa-plus-circle');
     const minusIcon = card.querySelector('.fa-minus-circle');
     const quantityElement = card.querySelector('.quantity');
@@ -11,14 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const heartIcon = card.querySelector('.fa-heart');
     const unitPriceElement = card.querySelector('.unit-price');
     
-    //  clic sur le +
     plusIcon.addEventListener('click', function() {
       let quantity = parseInt(quantityElement.textContent);
       quantityElement.textContent = quantity + 1;
       updateTotalPrice();
     });
     
-    //  clic sur le -
     minusIcon.addEventListener('click', function() {
       let quantity = parseInt(quantityElement.textContent);
       if (quantity > 0) {
@@ -27,26 +49,23 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    //  clic sur la corbeille
     trashIcon.addEventListener('click', function() {
       card.closest('.card-body').remove();
     });
     
-    // clic sur le cœur 
     heartIcon.addEventListener('click', function() {
       this.classList.toggle('active');
       this.style.color = this.classList.contains('active') ? 'red' : '';
     });
-    
-    // Fonction pour mettre à jour le prix total (si vous ajoutez cet élément)
-    function updateTotalPrice() {
-      const quantity = parseInt(quantityElement.textContent);
-      const unitPrice = parseFloat(unitPriceElement.textContent);
-      const totalElement = card.querySelector('.total-price');
-      
-      if (totalElement) {
-        totalElement.textContent = (quantity * unitPrice).toFixed(2) + ' $';
-      }
-    }
   });
+
+  function updateTotalPrice() {
+    let total = 0;
+    quantities.forEach((quantity, index) => {
+      let qty = parseInt(quantity.textContent);
+      let price = parseInt(unitPrices[index].textContent);
+      total += qty * price;
+    });
+    totalPriceElement.textContent = `${total} $`;
+  }
 });
