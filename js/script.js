@@ -5,26 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const unitPrices = document.querySelectorAll('.unit-price');
   const totalPriceElement = document.querySelector('.total');
 
-  plusButtons.forEach((button, index) => {
-    button.addEventListener('click', () => {
-      let quantity = parseInt(quantities[index].textContent);
-      quantity++;
-      quantities[index].textContent = quantity;
-      updateTotalPrice();
-    });
-  });
-
-  minusButtons.forEach((button, index) => {
-    button.addEventListener('click', () => {
-      let quantity = parseInt(quantities[index].textContent);
-      if (quantity > 0) {
-        quantity--;
-        quantities[index].textContent = quantity;
-        updateTotalPrice();
-      }
-    });
-  });
-
   const cards = document.querySelectorAll('.card');
   
   cards.forEach(card => {
